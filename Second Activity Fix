@@ -1,0 +1,50 @@
+package com.example.belajartodolist
+
+import android.content.Context
+import android.content.Intent
+import android.icu.text.CaseMap
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
+
+class SecondActivity : AppCompatActivity() {
+    lateinit var labelHeader : TextView
+    lateinit var listTodo : ListView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        labelHeader = findViewById(R.id.label_header)
+        listTodo = findViewById(R.id.list_todo)
+
+        var result = intent.getStringExtra("result")
+        labelHeader.text = "What's up, $result?"
+
+        val Items = ArrayList<Model>()
+        Items.add(Model("1", "", "Test", "Coba aja"))
+        Items.add(Model("2", "", "Intro", "Coba aja sih"))
+        Items.add(Model("3", "", "Task 1", "Coba-coba boleh kan"))
+        Items.add(Model("4", "", "Task 2", "Testing 1234"))
+        Items.add(Model("5", "", "Task 3", "Coba aja perhatikan semuanya deh"))
+
+        val adapter = TodoAdapter(this, R.layout.todo_item, Items)
+        listTodo.adapter = adapter
+
+        listTodo.setOnItemClickListener { adapterView, view, position, id ->
+            val item = adapterView.getItemAtPosition(position) as Model
+            val title = item.Title
+
+            Toast.makeText(
+                applicationContext,
+                "Kamu memilih $title",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        }
+    }
